@@ -3,10 +3,14 @@ import React, { useState } from 'react'
 import { auth } from '../firebase'
 import { StyleSheet, Text,TextInput, View,TouchableOpacity } from 'react-native';
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore"; 
+import { db } from '../firebase'
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [username, setUserName] = useState('')
+  const [phone, setPhone] = useState('')
 
   const navigation = useNavigation()
 
@@ -15,6 +19,14 @@ const RegisterScreen = () => {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log('Registered with:', user.email);
+        // Add a new document in collection "cities"
+      setDoc(doc(db, "users", user.uid), {
+        Name: username,
+        Phone: phone,
+        Email: email,
+        Password:password
+      })
+      .then(()=>alert("Account created successfully"))
         navigation.replace("Login");
       })
       .catch(error => {
@@ -26,10 +38,10 @@ const RegisterScreen = () => {
 
       <View style={styles.InputContainer}>
         <Text style={styles.TextStyle}>Ad Soyad</Text>
-        <TextInput style={styles.TextInputStyle} placeholder='Ör: Tuğba OĞUZ'></TextInput>
+        <TextInput style={styles.TextInputStyle} onChangeText={text => setUserName(text)}placeholder='Ör: Tuğba OĞUZ'></TextInput>
           
         <Text style={styles.TextStyle}>Telefon Numarası </Text>
-        <TextInput style={styles.TextInputStyle} placeholder='05XX XXX XX XX'></TextInput>      
+        <TextInput style={styles.TextInputStyle}onChangeText={text => setPhone(text)} placeholder='05XX XXX XX XX'></TextInput>      
             
         <Text style={styles.TextStyle}>E-mail</Text>
         <TextInput value={email} style={styles.TextInputStyle} onChangeText={text => setEmail(text)} placeholder='Ör: tugbaoguz@test.com' ></TextInput>    
