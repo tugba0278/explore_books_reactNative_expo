@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/core'
 import React, {  useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import { auth } from '../firebase'
+import { auth, db } from '../firebase'
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from 'firebase/firestore';
 
 
 const LoginScreen = () => {
@@ -10,19 +11,37 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('')
 
   const navigation = useNavigation()
-
-
+  const arr = [];
 
   const handleSignUp = () => {
     navigation.navigate("Register")
   }
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+
     signInWithEmailAndPassword(auth, email, password)
-      .then(userCredentials => {
+      .then(async (userCredentials) => {
         const user = userCredentials.user;
-        console.log('Logged in with:', user.email);
-        navigation.replace("Home")
+        console.log('Logged in with:', user.email);       
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          
+          console.log("Document data:", data);
+          console.log("data.Genre.length:", data.Genre.length);
+          
+          if(data.Genre.length === 0){
+            navigation.replace("GenreSelection");
+          } 
+          else {
+            navigation.replace("Home");
+          }
+        }
+        else {
+          console.log("No such document exists");
+        }
       })
       .catch(error => alert(error.message))
   }

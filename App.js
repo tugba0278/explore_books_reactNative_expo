@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
-//import GenreSelectionScreen from './screens/GenreSelectionScreen';
+import GenreSelectionScreen from './screens/GenreSelectionScreen';
 import HomeScreen from './screens/HomeScreen';
 
 
@@ -35,7 +35,7 @@ export default function App() {
           },
         }} />
 
-        {/* <Stack.Screen 
+         <Stack.Screen 
           name="GenreSelection" 
           component={GenreSelectionScreen}
           options={{
@@ -47,7 +47,7 @@ export default function App() {
             headerTitleStyle: {
               fontWeight: 'bold',
             },
-          }} /> */}
+          }} />  
 
         <Stack.Screen 
           name="Home" 

@@ -1,95 +1,113 @@
-// import React, { useState } from 'react';
-// import { View, Text, TouchableOpacity } from 'react-native';
-// import { auth, firestore } from '../firebase'; // Firebase bağlantısı
-// import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { auth, db } from '../firebase'; // Firebase bağlantısı
+import { useNavigation } from '@react-navigation/native';
+import firestore, { collection, doc, setDoc, getDoc } from 'firebase/firestore';
 
-// const navigation = useNavigation();
 
-// const BookGenreSelection = () => {
-//   const [selectedGenres, setSelectedGenres] = useState([]);
+const GenreSelectionScreen = () => {
+  const [selectedGenres, setSelectedGenres] = useState([]);
 
-//   const groupedGenres = [
-//     ['ROMAN', 'POLİSİYE'],
-//     ['ŞİİR', 'ÇOCUK'],
-//     ['DİNİ', 'HİKAYE'],
-//     ['PSİKOLOJİ', 'K.GELİŞİM'],
-//     ['TARİH', 'SAĞLIK']
-//   ];
+  const navigation = useNavigation();
+  const groupedGenres = [
+    ['ROMAN', 'POLİSİYE'],
+    ['ŞİİR', 'ÇOCUK'],
+    ['DİNİ', 'HİKAYE'],
+    ['PSİKOLOJİ', 'K.GELİŞİM'],
+    ['TARİH', 'SAĞLIK']
+  ];
 
-//   const toggleGenreSelection = (genre) => {
-//     const updatedGenres = [...selectedGenres];
-//     const genreIndex = updatedGenres.indexOf(genre.toLowerCase());
-//     if (genreIndex !== -1) {
-//       updatedGenres.splice(genreIndex, 1);
-//     } else {
-//       updatedGenres.push(genre.toLowerCase());
-//     }
-//     setSelectedGenres(updatedGenres);
-//   };
+  const toggleGenreSelection = (genre) => {
+    const updatedGenres = [...selectedGenres];
+    const genreIndex = updatedGenres.indexOf(genre.toLowerCase());
+    if (genreIndex !== -1) {
+      updatedGenres.splice(genreIndex, 1);
+    } else {
+      updatedGenres.push(genre.toLowerCase());
+    }
+    setSelectedGenres(updatedGenres);
+  };
   
-//   const saveSelectedGenres = async () => {
-//     try {
-//       const user = auth.currentUser;
-//       if (user) {
-//         // Firestore'da kullanıcının belirtilen kitap türlerini güncelle
-//         await firestore.collection('users').doc(user.uid).update({
-//           'genre-selection': selectedGenres
-//         });
-//         // Yeni bir sayfaya geçiş yapmamızı sağlar
-//         navigation.replace("Home")
-//       } else {
-//         console.log("Kullanıcı oturumu bulunamadı.");
-//       }
-//     } catch (error) {
-//       console.error("Hata:", error);
-//     }
-//   };
+  const saveSelectedGenres = async () => {
+    try {
+      console.log("In GenreSelection");
+      const user = auth.currentUser;
+      if (user) {
+        // Reference to the user's document in Firestore
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
 
-//   return (
-//     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'stretch', backgroundColor: 'black' }}>
-//       <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'white', marginLeft: 40 }}>NE TÜR KİTAPLARDAN HOŞLANIRSINIZ?</Text>
-//       <View style={{ height: 40 }} />
+        if (docSnap.exists) {
+          const data = docSnap.data();
+          console.log("Document data:", data);
 
-//       {groupedGenres.map((genreGroup, index) => (
-//         <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-//           {genreGroup.map((genre) => (
-//             <TouchableOpacity
-//               key={genre}
-//               onPress={() => toggleGenreSelection(genre)}
-//               style={{
-//                 backgroundColor: selectedGenres.includes(genre.toLowerCase()) ? '#800000' : 'white',
-//                 width: 150,
-//                 height: 45,
-//                 justifyContent: 'center',
-//                 alignItems: 'center',
-//                 borderRadius: 10,
-//                 marginVertical: 10
-//               }}
-//             >
-//               <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold' }}>{genre}</Text>
-//             </TouchableOpacity>
-//           ))}
-//         </View>
-//       ))}
+          setDoc(docRef, {
+              ...data,
+              Genre:selectedGenres,
+            })
+            .catch(error => {
+              alert(error.message)
+            });
+        }
+        else {
+          console.log("No such document exists");
+        }
 
-//       <TouchableOpacity
-//         onPress={saveSelectedGenres}
-//         style={{
-//           backgroundColor: '#800000',
-//           width: 80,
-//           height: 40,
-//           justifyContent: 'center',
-//           alignItems: 'center',
-//           position: 'absolute',
-//           bottom: 80,
-//           right: 40,
-//           borderRadius: 10
-//         }}
-//       >
-//         <Text style={{ color: 'white', fontSize: 15 }}>İLERİ</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
+        navigation.replace("Home");
+      } else {
+        console.log("Kullanıcı oturumu bulunamadı.");
+      }
+    } catch (error) {
+      console.error("Hata:", error);
+    }
+  };
+  
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'stretch', backgroundColor: 'black' }}>
+      <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'white', marginLeft: 40 }}>NE TÜR KİTAPLARDAN HOŞLANIRSINIZ?</Text>
+      <View style={{ height: 40 }} />
 
-// export default BookGenreSelection;
+      {groupedGenres.map((genreGroup, index) => (
+        <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+          {genreGroup.map((genre) => (
+            <TouchableOpacity
+              key={genre}
+              onPress={() => toggleGenreSelection(genre)}
+              style={{
+                backgroundColor: selectedGenres.includes(genre.toLowerCase()) ? '#800000' : 'white',
+                width: 150,
+                height: 45,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 10,
+                marginVertical: 10
+              }}
+            >
+              <Text style={{ color: 'black', fontSize: 17, fontWeight: 'bold' }}>{genre}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      ))}
+
+      <TouchableOpacity
+        onPress={saveSelectedGenres}
+        style={{
+          backgroundColor: '#800000',
+          width: 80,
+          height: 40,
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+          bottom: 80,
+          right: 40,
+          borderRadius: 10
+        }}
+      >
+        <Text style={{ color: 'white', fontSize: 15 }}>İLERİ</Text>
+      </TouchableOpacity>
+      
+    </View>
+  );
+};
+
+export default GenreSelectionScreen;

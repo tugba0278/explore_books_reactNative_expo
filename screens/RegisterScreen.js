@@ -11,6 +11,7 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState('')
   const [username, setUserName] = useState('')
   const [phone, setPhone] = useState('')
+  const [selectedGenres] = useState([]);
 
   const navigation = useNavigation()
 
@@ -18,13 +19,15 @@ const RegisterScreen = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
+        const userId = user.uid;
         console.log('Registered with:', user.email);
         // Add a new document in collection "cities"
       setDoc(doc(db, "users", user.uid), {
         Name: username,
         Phone: phone,
         Email: email,
-        Password:password
+        OwnerId:userId,
+        Genre:selectedGenres,
       })
       .then(()=>alert("Account created successfully"))
         navigation.replace("Login");
