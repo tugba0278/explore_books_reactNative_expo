@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, ImageBackground } from 'react-native';
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -21,6 +21,8 @@ const AuthorListScreen = () => {
             // yazarlar state'ini güncelleyin
             setyazarlar(yazarlarData);
             console.log("Tüm yazarlar:", yazarlarData);
+            console.log("Resim URL'leri:", yazarlar.map((yazar) => yazar.image));
+
         } catch (error) {
             console.error("Error getting documents: ", error);
         }
@@ -30,7 +32,7 @@ const AuthorListScreen = () => {
         <ScrollView contentContainerStyle={styles.container}>
             {yazarlar.map((yazar, index) => (
                 <View style={styles.yazarContainer} key={index}>
-                    <Image source={{ uri: yazar.image }} style={styles.resim} />
+                    <Image source={{ uri: yazar.image }} style={styles.resim} />                 
                     <Text style={styles.isim}>{yazar.isim}</Text>
                     <Text style={styles.dogumYeri}>{yazar.dogum_yeri}</Text>
                     <Text style={styles.dogumYili}>{yazar.dogum_yılı}</Text>
@@ -62,6 +64,7 @@ const styles = StyleSheet.create({
         height: 200,
         marginBottom: 10,
         borderRadius: 8,
+        resizeMode:"contain"
     },
     isim: {
         fontSize: 18,

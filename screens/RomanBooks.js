@@ -58,10 +58,11 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     resim: {
-        width: '100%',
+        width: '80%',
         height: 200,
         marginBottom: 10,
         borderRadius: 8,
+        marginStart:15
     },
     isim: {
         fontSize: 18,
