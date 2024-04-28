@@ -12,6 +12,7 @@ import HomeScreenDrawer from './screens/HomeScreenDrawer';
 import AboutScreen from './screens/AboutScreen';
 import RomanBooks from './screens/RomanBooks';
 import PolisiyeBooks from './screens/PolisiyeBooks';
+import AuthorDetailScreen from './screens/AuthorDetailScreen';
 
 
 const Stack = createStackNavigator();
@@ -82,6 +83,10 @@ export default function App() {
         <Stack.Screen    
           name="Polisiye" 
           component={PolisiyeBooks} />
+
+        <Stack.Screen    
+          name="AuthorDetail" 
+          component={AuthorDetailScreen} />
 
 
       </Stack.Navigator>    

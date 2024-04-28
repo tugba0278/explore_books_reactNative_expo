@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView, Image, ImageBackground } from 'react-native';
+import { Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../firebase";
+//import { useNavigation } from '@react-navigation/native';
 
-const AuthorListScreen = () => {
+const AuthorListScreen = ({navigation}) => {
     const [yazarlar, setyazarlar] = useState([]);
 
-    useEffect(() => {
-        veriGetir();
-    }, []);
-
+    useEffect(() => {   
     const veriGetir = async () => {
         try {
             const querySnapshot = await getDocs(collection(db, "yazarlar"));
@@ -28,15 +26,28 @@ const AuthorListScreen = () => {
         }
     };
 
+    veriGetir();
+    }, []);
+
+    const handleAuthorPress = (yazar) => {
+        // Yazar detay sayfasına yönlendirme yap
+        navigation.navigate('AuthorDetail', { author: yazar });
+    };
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
+
             {yazarlar.map((yazar, index) => (
-                <View style={styles.yazarContainer} key={index}>
+                <TouchableOpacity 
+                    style={styles.yazarContainer} 
+                    onPress={() => handleAuthorPress(yazar)} // Yazar detayına tıklandığında işleyiciyi çağır
+                    key={index}
+                    >
                     <Image source={{ uri: yazar.image }} style={styles.resim} />                 
                     <Text style={styles.isim}>{yazar.isim}</Text>
                     <Text style={styles.dogumYeri}>{yazar.dogum_yeri}</Text>
                     <Text style={styles.dogumYili}>{yazar.dogum_yılı}</Text>
-                </View>
+                </TouchableOpacity>
             ))}
         </ScrollView>
     );

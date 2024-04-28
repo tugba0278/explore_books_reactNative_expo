@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         height: 200,
         marginBottom: 10,
         borderRadius: 8,
-        marginStart:15
+        marginStart:20
     },
     isim: {
         fontSize: 18,
