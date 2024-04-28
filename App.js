@@ -13,6 +13,7 @@ import AboutScreen from './screens/AboutScreen';
 import RomanBooks from './screens/RomanBooks';
 import PolisiyeBooks from './screens/PolisiyeBooks';
 import AuthorDetailScreen from './screens/AuthorDetailScreen';
+import BooksDetailScreen from './screens/BooksDetailScreen';
 
 
 const Stack = createStackNavigator();
@@ -87,6 +88,10 @@ export default function App() {
         <Stack.Screen    
           name="AuthorDetail" 
           component={AuthorDetailScreen} />
+
+        <Stack.Screen    
+          name="BookDetail" 
+          component={BooksDetailScreen} />
 
 
       </Stack.Navigator>    

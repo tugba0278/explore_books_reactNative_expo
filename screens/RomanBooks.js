@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
+import { Text, StyleSheet, ScrollView, Image ,TouchableOpacity} from 'react-native';
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../firebase";
 
-const RomanBooks = () => {
+const RomanBooks = ({navigation}) => {
     const [kitaplar, setKitaplar] = useState([]);
 
     useEffect(() => {
-        veriGetir();
-    }, []);
-
+        
     const veriGetir = async () => {
         try {
             const querySnapshot = await getDocs(collection(db, "roman"));
@@ -25,16 +23,27 @@ const RomanBooks = () => {
             console.error("Error getting documents: ", error);
         }
     };
+    veriGetir();
+    }, []);
+
+    const handleBookPress = (kitap) => {
+        // Yazar detay sayfasına yönlendirme yap
+        navigation.navigate('BookDetail', { book: kitap });
+    };
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
             {kitaplar.map((kitap, index) => (
-                <View style={styles.kitapContainer} key={index}>
-                    <Image source={{ uri: kitap.image }} style={styles.resim} />
-                    <Text style={styles.isim}>{kitap.isim}</Text>
-                    <Text style={styles.yazar}>{kitap.yazar}</Text>
-                    <Text style={styles.basimYili}>{kitap.basım_yılı}</Text>
-                </View>
+                <TouchableOpacity
+                    style={styles.kitapContainer} 
+                    onPress={() => handleBookPress(kitap)} // Yazar detayına tıklandığında işleyiciyi çağır
+                    key={index}
+                    >   
+                        <Image source={{ uri: kitap.image }} style={styles.resim} />
+                        <Text style={styles.isim}>{kitap.isim}</Text>
+                        <Text style={styles.yazar}>{kitap.yazar}</Text>
+                        <Text style={styles.basimYili}>{kitap.basım_yılı}</Text>
+                </TouchableOpacity>
             ))}
         </ScrollView>
     );

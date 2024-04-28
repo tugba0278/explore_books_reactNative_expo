@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../firebase";
-//import { useNavigation } from '@react-navigation/native';
 
 const AuthorListScreen = ({navigation}) => {
     const [yazarlar, setyazarlar] = useState([]);

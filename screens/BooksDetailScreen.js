@@ -1,16 +1,15 @@
 import React from "react";
 import { Text, StyleSheet ,Image,ScrollView} from 'react-native';
 
-const AuthorDetailScreen = ({ route }) => {
-    const { author } = route.params;
+const BooksDetailScreen = ({ route }) => {
+    const { book } = route.params;
 
     return (
         <ScrollView style={styles.container}>
-            <Image source={{ uri: author.image }} style={styles.resim} />                 
-            <Text style={styles.isim}>{author.isim}</Text>
-            <Text style={styles.dogumYeri}>Doğum Yeri: {author.dogum_yeri}</Text>
-            <Text style={styles.dogumYili}>Doğum Yılı: {author.dogum_yılı}</Text>
-            <Text style={styles.bio}>{author.bio}</Text>
+            <Image source={{ uri: book.image }} style={styles.resim} />                 
+            <Text style={styles.isim}>{book.isim}</Text>
+            <Text style={styles.yazar}>Doğum Yeri: {book.yazar}</Text>
+            <Text style={styles.basimYili}>Doğum Yılı: {book.basım_yılı}</Text>
         </ScrollView>
     );
 }
@@ -33,21 +32,15 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 10,
     },
-    dogumYeri: {
+    yazar: {
         fontSize: 18,
         marginBottom: 5,
     },
-    dogumYili: {
+    basimYili: {
         fontSize: 18,
         marginBottom: 5,
     },
-    bio:{
-        fontSize: 20,
-        fontWeight: '400',
-        marginBottom: 10,
-        textAlign:"justify",
-        marginTop:20
-    }
+    
 });
 
-export default AuthorDetailScreen;
+export default BooksDetailScreen;
