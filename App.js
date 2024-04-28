@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import GenreSelectionScreen from './screens/GenreSelectionScreen';
@@ -8,8 +9,9 @@ import BooksScreen from './screens/BooksScreen';
 import LogoutScreen from './screens/LogOutScreen';
 import AuthorListScreen from './screens/AuthorListScreen';
 import HomeScreenDrawer from './screens/HomeScreenDrawer';
-import { createStackNavigator } from '@react-navigation/stack';
 import AboutScreen from './screens/AboutScreen';
+import RomanBooks from './screens/RomanBooks';
+import PolisiyeBooks from './screens/PolisiyeBooks';
 
 
 const Stack = createStackNavigator();
@@ -72,6 +74,14 @@ export default function App() {
         <Stack.Screen    
           name="LogOut" 
           component={LogoutScreen} />
+
+        <Stack.Screen    
+          name="Roman" 
+          component={RomanBooks} />
+
+        <Stack.Screen    
+          name="Polisiye" 
+          component={PolisiyeBooks} />
 
 
       </Stack.Navigator>    
