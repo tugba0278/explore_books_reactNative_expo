@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { auth, db } from '../firebase'; // Firebase bağlantısı
 import { useNavigation } from '@react-navigation/native';
-import firestore, { collection, doc, setDoc, getDoc } from 'firebase/firestore';
-
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const GenreSelectionScreen = () => {
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -16,6 +15,8 @@ const GenreSelectionScreen = () => {
     ['PSİKOLOJİ', 'K.GELİŞİM'],
     ['TARİH', 'SAĞLIK']
   ];
+
+  
 
   const toggleGenreSelection = (genre) => {
     const updatedGenres = [...selectedGenres];

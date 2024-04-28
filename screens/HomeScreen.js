@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text,  StyleSheet,TouchableOpacity } from 'react-native';
 import { auth, db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
-// Firebase ve diğer gerekli kütüphaneleri ekleyin
+
 
 const HomeScreen = () => {
   const [userName, setUserName] = useState('');
@@ -30,7 +30,9 @@ const HomeScreen = () => {
       <Text style={{color:'white',fontSize:30,bottom:30}}>Hoş geldiniz, {userName}!</Text>
 
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={() => {
+
+        }}
         style={ [styles.buttonStyle]}      
       >
           <Text style={[styles.textStyle]}>YENİ EKLENENLER</Text>
@@ -84,6 +86,11 @@ const styles=  StyleSheet.create({
 
   textStyle:{
     color: 'black', 
+    fontSize: 20, 
+    fontWeight: 'bold'
+  },
+  menuText: {
+    color: 'white', 
     fontSize: 20, 
     fontWeight: 'bold'
   }
