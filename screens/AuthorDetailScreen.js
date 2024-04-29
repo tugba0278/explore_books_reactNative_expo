@@ -8,8 +8,8 @@ const AuthorDetailScreen = ({ route }) => {
         <ScrollView style={styles.container}>
             <Image source={{ uri: author.image }} style={styles.resim} />                 
             <Text style={styles.isim}>{author.isim}</Text>
-            <Text style={styles.dogumYeri}>Doğum Yeri: {author.dogum_yeri}</Text>
-            <Text style={styles.dogumYili}>Doğum Yılı: {author.dogum_yılı}</Text>
+            <Text style={styles.dogumYeri}>Doğum Yeri:  {author.dogum_yeri}</Text>
+            <Text style={styles.dogumYili}>Doğum Yılı:  {author.dogum_yılı}</Text>
             <Text style={styles.bio}>{author.bio}</Text>
         </ScrollView>
     );

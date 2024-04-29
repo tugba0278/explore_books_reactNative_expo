@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         padding: 10,
-        backgroundColor:"#D6DAC8"
+        backgroundColor:"#D6DAC8",
     },
     kitapContainer: {
         width: '48%', // İki kitap her satırda yer alacak şekilde genişlik ayarı
